@@ -1,3 +1,22 @@
+/**
+ * @file server.c
+ * @author Alejandro Moreno (ale.moreno991@gmail.com)
+ * @brief Acá se hace una breve descripción del archivo
+ * 
+ * @version 2020-12-04 --------- Alejandro Moreno -------- v0.0
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ * @details Acá se puede hacer una descripción más detallada del archivo. 
+ * Quizás, incorporando cosas más específicas.
+ * 
+ */
+
+#define _XOPEN_SOURCE   600
+#define _POSIX_C_SOURCE 200112L
+/******************************************************************************
+ *  Inclusions (library's order: standard C, others, user header files)
+ *****************************************************************************/
 #include <unistd.h>
 #include <pthread.h>
 #include <stdio.h>
@@ -7,10 +26,47 @@
 #include "peer.h"
 #include "queue.h"
 #include "serial.h"
+/******************************************************************************
+ *  Inclusions of private function dependencies
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definitions of private data types (order: Enums, Typedefs)
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definition macros of private constants
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Private function-like macros
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definitions of external public global variables
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definitions of public global variables
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definitions of private global variables
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Prototypes (declarations) of private functions  
+ *****************************************************************************/
 
 static void* thread_peer( void *param );
+
 static void* thread_serial_rx( void *param );
+
 static void* thread_serial_tx( void *param );
+
+/******************************************************************************
+ *  Implementations of public functions
+ *****************************************************************************/
 
 bool Server_Create( server_t *self, char port[] )
 {
@@ -102,7 +158,7 @@ bool Server_Run( server_t *self )
 bool Server_Stop( server_t *self )
 {
     self->keep_running = false;
-    SocketServer_shutdownchannel( &self->skt_server, RDWR );
+    return SocketServer_shutdownchannel( &self->skt_server, RDWR );
 }
 
 bool Server_Destroy( server_t *self )
@@ -111,6 +167,11 @@ bool Server_Destroy( server_t *self )
     return true;
 }
 
+
+/******************************************************************************
+ *  Implementations of private functions
+ *****************************************************************************/
+
 void* thread_peer( void *param )
 {
     peer_t *peer = (peer_t *) param;
@@ -118,6 +179,8 @@ void* thread_peer( void *param )
     peer_create( peer );
     peer_run( peer );
     peer_destroy( peer );
+
+    return NULL;
 }
 
 void* thread_serial_rx( void *param )
@@ -131,6 +194,8 @@ void* thread_serial_rx( void *param )
         Serial_Rx( serial_handle );
         usleep( 1000 );
     }
+
+    return NULL;
 }
 
 void* thread_serial_tx( void *param )
@@ -145,4 +210,5 @@ void* thread_serial_tx( void *param )
         usleep( 1000 );
     }
 
+    return NULL;
 }

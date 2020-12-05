@@ -1,4 +1,21 @@
+/**
+ * @file socket_server.c
+ * @author Alejandro Moreno (ale.moreno991@gmail.com)
+ * @brief Acá se hace una breve descripción del archivo
+ * 
+ * @version 2020-12-04 --------- Alejandro Moreno -------- v0.0
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ * @details Acá se puede hacer una descripción más detallada del archivo. 
+ * Quizás, incorporando cosas más específicas.
+ * 
+ */
+
 #define _POSIX_C_SOURCE 200112L
+/******************************************************************************
+ *  Inclusions (library's order: standard C, others, user header files)
+ *****************************************************************************/
 
 /*
  *  Includes comunes de C
@@ -25,11 +42,46 @@
  */
 #include "socket_server.h"
 
+/******************************************************************************
+ *  Inclusions of private function dependencies
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definitions of private data types (order: Enums, Typedefs)
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definition macros of private constants
+ *****************************************************************************/
 #define MAX_LISTEN_QUEUE 20
 
+/******************************************************************************
+ *  Private function-like macros
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definitions of external public global variables
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definitions of public global variables
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definitions of private global variables
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Prototypes (declarations) of private functions  
+ *****************************************************************************/
 
 bool _Bind( socket_server_t *self, struct addrinfo *result );    
+
 bool _Listen( socket_server_t *self );
+
+/******************************************************************************
+ *  Implementations of public functions
+ *****************************************************************************/
 
 bool SocketServer_create( socket_server_t *self, char port[] ) 
 {    
@@ -129,6 +181,11 @@ bool SocketServer_destroy( socket_server_t *self ) {
     
     return true;    
 }
+
+
+/******************************************************************************
+ *  Implementations of private functions
+ *****************************************************************************/
 
 bool _Bind( socket_server_t *self, struct addrinfo *result )
 {

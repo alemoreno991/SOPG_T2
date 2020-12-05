@@ -1,4 +1,21 @@
+/**
+ * @file socket.c
+ * @author Alejandro Moreno (ale.moreno991@gmail.com)
+ * @brief Acá se hace una breve descripción del archivo
+ * 
+ * @version 2020-12-04 --------- Alejandro Moreno -------- v0.0
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ * @details Acá se puede hacer una descripción más detallada del archivo. 
+ * Quizás, incorporando cosas más específicas.
+ * 
+ */
+
 #define _POSIX_C_SOURCE 200112L
+/******************************************************************************
+ *  Inclusions (library's order: standard C, others, user header files)
+ *****************************************************************************/
 
 /*
  *  Includes comunes de C
@@ -23,8 +40,43 @@
  *  Includes ad-hoc
  */
 #include "socket.h"
+/******************************************************************************
+ *  Inclusions of private function dependencies
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definitions of private data types (order: Enums, Typedefs)
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definition macros of private constants
+ *****************************************************************************/
 
 #define INVALID_FD -1
+
+/******************************************************************************
+ *  Private function-like macros
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definitions of external public global variables
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definitions of public global variables
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Definitions of private global variables
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Prototypes (declarations) of private functions  
+ *****************************************************************************/
+
+/******************************************************************************
+ *  Implementations of public functions
+ *****************************************************************************/
 
 void Socket_create( socket_t *self, int32_t file_descriptor )
 {
@@ -112,40 +164,6 @@ bool Socket_destroy( socket_t *self )
     return true;  
 }
 
-bool _Connect( socket_t *self, struct addrinfo *result )
-{
-    struct addrinfo *rp;
-
-    /* Itero por las posibles conexiones que cumplen con lo que yo especifiqué */
-    for ( rp = result; rp != NULL; rp = rp->ai_next )
-    {
-        /* Intento generar el socket */
-        if ( -1 == ( self->fd = socket( rp->ai_family, 
-                                        rp->ai_socktype, 
-                                        rp->ai_protocol ) ) )
-        {
-            /* Si no pude crear el socket entonces voy a la siguiente iteración */
-            continue; 
-        }
-
-        /* Intento conectar */
-        if ( -1 != connect( self->fd, rp->ai_addr, rp->ai_addrlen ) )
-        {
-            /* Si logro conectar salgo del loop */
-            break;
-        }
-
-        /* En caso de no haber podido bindear cierro el socket */
-        close( self->fd );
-    }
-
-    /* Manejo errores (si no pude conectar contra ningun socket) */
-    if ( rp == NULL )
-    {
-        fprintf(stderr, "Conexion fallido\n");
-        return false;
-    }
-
-    return true;
-}
-
+/******************************************************************************
+ *  Implementations of private functions
+ *****************************************************************************/

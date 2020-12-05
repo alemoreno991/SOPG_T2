@@ -1,1 +1,0 @@
-gcc -Wall -g -pthread main.c rs232.c SerialManager.c serial.c socket.c socket_server.c server.c peer.c queue.c -o serialService
