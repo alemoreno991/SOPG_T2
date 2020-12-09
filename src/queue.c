@@ -58,7 +58,10 @@
 
 void queue_create( queue_t *self )
 {
-    pthread_mutex_init( &self->mutex, NULL );
+    if( 0 != pthread_mutex_init( &self->mutex, NULL ) )
+    {
+        exit (EXIT_FAILURE);
+    }
     self->queue = NULL;
 }
 

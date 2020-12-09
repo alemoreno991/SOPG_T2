@@ -56,6 +56,8 @@
  *****************************************************************************/
 static sig_atomic_t keep_running = true;
 
+server_t server;
+
 /******************************************************************************
  *  Prototypes (declarations) of private functions  
  *****************************************************************************/
@@ -78,7 +80,6 @@ void sig_handler(int sig);
 
 int main(void)
 {
-	server_t server;
 	pthread_t thread_server;
 	
 	// signal ctrl+c
@@ -100,14 +101,6 @@ int main(void)
 
 	/* Desbloqueo las señales solamente para este hilo (hilo principal)*/
 	desbloquearSign();
-
-	while ( true == keep_running )
-	{
-		usleep(2000);
-	}
-
-	printf("Frenar server\n");
-	Server_Stop( &server );
 
 	pthread_join( thread_server, NULL );
 
@@ -135,7 +128,10 @@ void bloquearSign(void)
 	sigemptyset(&set);
     sigaddset(&set, SIGINT);
     sigaddset(&set, SIGTERM);
-    pthread_sigmask(SIG_BLOCK, &set, NULL);
+    if ( 0 != pthread_sigmask(SIG_BLOCK, &set, NULL) )
+	{
+		exit (EXIT_FAILURE);
+	}
 }
 
 void desbloquearSign(void)
@@ -145,7 +141,10 @@ void desbloquearSign(void)
 	sigemptyset(&set);
     sigaddset(&set, SIGINT);
     sigaddset(&set, SIGTERM);
-    pthread_sigmask(SIG_UNBLOCK, &set, NULL);
+    if ( 0 != pthread_sigmask(SIG_UNBLOCK, &set, NULL) )
+	{
+		exit (EXIT_FAILURE);
+	}
 }
 
 /******************************************************************************
@@ -154,5 +153,6 @@ void desbloquearSign(void)
 
 void sig_handler(int sig)
 {
-	keep_running = false;
+	printf("Frenar server\n");
+	Server_Stop( &server );
 }

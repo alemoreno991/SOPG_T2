@@ -133,13 +133,14 @@ bool Server_Run( server_t *self )
                         NULL, 
                         thread_peer, 
                         (void *) &threads_param[num_threads - 1] );
+        
+        pthread_detach( &threads[num_threads - 1] );
     }
 
     printf("Servidor cerrandose... (no acepta más conexiones)\n");
     for (size_t i = 0; i < num_threads; i++)
     {
         peer_stop( &threads_param[i] );
-        pthread_join( threads[i], NULL );
         printf("Peer %ld cerrado\n", i );
     }
 
